@@ -15,7 +15,7 @@ const minLength = (len) => (val) => !(val) || (val.length >= len);
 function RenderDish({dish}){
   if(dish!=null){
     return(
-      // <div className = "col-12 col-md-5 m-1">
+    <div className = "col-12 col-md-5 m-1">
       <Card>
         <CardImg top src={baseUrl +dish.image} alt={dish.name} />
         <CardBody>
@@ -23,7 +23,7 @@ function RenderDish({dish}){
             <CardText>{dish.description}</CardText>
         </CardBody>
       </Card>
-      // </div>
+    </div>
     );
   }else {
     return(
@@ -32,10 +32,10 @@ function RenderDish({dish}){
   }
 }
 
-function RenderComments({comments,addComment,dishId}){
+function RenderComments({comments,postComment,dishId}){
   if (comments!=null) {
       return(
-        <div>
+        <div className = "col-12 col-md-5 m-1">
           <h4>Comments</h4>
           <ul className= "list-unstyled">
                 {comments.map((comment)=>{
@@ -47,7 +47,7 @@ function RenderComments({comments,addComment,dishId}){
                     );
                 })}
           </ul>
-          <CommentForm dishId={dishId} addComment={addComment} />
+          <CommentForm dishId={dishId} postComment={postComment} />
         </div>
       );
     } else {
@@ -82,9 +82,7 @@ class CommentForm extends Component{
 
   handleSubmit(values){
     this.toggleModal();
-    //  console.log("state:" + JSON.stringify(values));
-    //  alert("state:" + JSON.stringify(values));
-    this.props.addComment(this.props.dishId,values.rating,values.author,values.comment);
+    this.props.postComment(this.props.dishId,values.rating,values.author,values.comment);
 }
 
   render(){
@@ -93,7 +91,7 @@ class CommentForm extends Component{
         <Button outline onClick={this.toggleModal}>
             <span className = "fa fa-pencil fa-lg"></span> Submit Comment
         </Button>
-        <Modal isOpen={this.state.isModalOpen} toogle={this.toggleModal}>
+        <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
           <ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
           <ModalBody>
             <LocalForm onSubmit={(values)=> this.handleSubmit(values)}>
@@ -203,14 +201,14 @@ class CommentForm extends Component{
             </div>                
         </div>
             <div className="row">
-              <div className="col-12 col-md-5 m-1">
+              
                   <RenderDish dish={props.dish} />
-              </div>
-              <div className="col-12 col-md-5 m-1">
+              
+             
                 <RenderComments comments={props.comments} 
-                                addComment={props.addComment}
+                                postComment={props.postComment}
                                 dishId={props.dish.id} />
-              </div>
+              
             </div>
 
       </div>
